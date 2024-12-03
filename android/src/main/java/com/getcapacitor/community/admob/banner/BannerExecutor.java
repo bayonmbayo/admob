@@ -216,9 +216,9 @@ public class BannerExecutor extends Executor {
                 () -> {
                     final AdRequest adRequest = RequestHelper.createRequest(adOptions);
                     // TODO
-                    if(mAdView != null){
+                    if (mAdView != null) {
                         mAdView.loadAd(adRequest);
-                    }else{
+                    } else {
                         Log.e(logTag, "mAdView is null, the updateExistingAdView can't be completed");
                     }
                 }
@@ -243,65 +243,64 @@ public class BannerExecutor extends Executor {
                     // Start loading the ad.
                     mAdView.loadAd(adRequest);
                     // TODO
-                    if(mAdView != null){
+                    if (mAdView != null) {
                         mAdView.setAdListener(
-                                new AdListener() {
-                                    @Override
-                                    public void onAdLoaded() {
-                                        final BannerAdSizeInfo sizeInfo = new BannerAdSizeInfo(mAdView);
+                            new AdListener() {
+                                @Override
+                                public void onAdLoaded() {
+                                    final BannerAdSizeInfo sizeInfo = new BannerAdSizeInfo(mAdView);
 
-                                        notifyListeners(BannerAdPluginEvents.SizeChanged.getWebEventName(), sizeInfo);
-                                        notifyListeners(BannerAdPluginEvents.Loaded.getWebEventName(), emptyObject);
-                                        super.onAdLoaded();
-                                    }
-
-                                    @Override
-                                    public void onAdFailedToLoad(@NonNull LoadAdError adError) {
-                                        if (mAdView != null) {
-                                            mViewGroup.removeView(mAdViewLayout);
-                                            mAdViewLayout.removeView(mAdView);
-                                            mAdView.destroy();
-                                            mAdView = null;
-                                        }
-
-                                        final BannerAdSizeInfo sizeInfo = new BannerAdSizeInfo(0, 0);
-                                        notifyListeners(BannerAdPluginEvents.SizeChanged.getWebEventName(), sizeInfo);
-
-                                        final AdMobPluginError adMobPluginError = new AdMobPluginError(adError);
-                                        notifyListeners(BannerAdPluginEvents.FailedToLoad.getWebEventName(), adMobPluginError);
-
-                                        super.onAdFailedToLoad(adError);
-                                    }
-
-                                    @Override
-                                    public void onAdOpened() {
-                                        // TODO
-                                        notifyListeners(BannerAdPluginEvents.Opened.getWebEventName(), emptyObject);
-                                        super.onAdOpened();
-                                    }
-
-                                    @Override
-                                    public void onAdClosed() {
-                                        notifyListeners(BannerAdPluginEvents.Closed.getWebEventName(), emptyObject);
-                                        super.onAdClosed();
-                                    }
-
-                                    @Override
-                                    public void onAdImpression() {
-                                        notifyListeners(BannerAdPluginEvents.AdImpression.getWebEventName(), emptyObject);
-                                        super.onAdImpression();
-                                    }
+                                    notifyListeners(BannerAdPluginEvents.SizeChanged.getWebEventName(), sizeInfo);
+                                    notifyListeners(BannerAdPluginEvents.Loaded.getWebEventName(), emptyObject);
+                                    super.onAdLoaded();
                                 }
+
+                                @Override
+                                public void onAdFailedToLoad(@NonNull LoadAdError adError) {
+                                    if (mAdView != null) {
+                                        mViewGroup.removeView(mAdViewLayout);
+                                        mAdViewLayout.removeView(mAdView);
+                                        mAdView.destroy();
+                                        mAdView = null;
+                                    }
+
+                                    final BannerAdSizeInfo sizeInfo = new BannerAdSizeInfo(0, 0);
+                                    notifyListeners(BannerAdPluginEvents.SizeChanged.getWebEventName(), sizeInfo);
+
+                                    final AdMobPluginError adMobPluginError = new AdMobPluginError(adError);
+                                    notifyListeners(BannerAdPluginEvents.FailedToLoad.getWebEventName(), adMobPluginError);
+
+                                    super.onAdFailedToLoad(adError);
+                                }
+
+                                @Override
+                                public void onAdOpened() {
+                                    // TODO
+                                    notifyListeners(BannerAdPluginEvents.Opened.getWebEventName(), emptyObject);
+                                    super.onAdOpened();
+                                }
+
+                                @Override
+                                public void onAdClosed() {
+                                    notifyListeners(BannerAdPluginEvents.Closed.getWebEventName(), emptyObject);
+                                    super.onAdClosed();
+                                }
+
+                                @Override
+                                public void onAdImpression() {
+                                    notifyListeners(BannerAdPluginEvents.AdImpression.getWebEventName(), emptyObject);
+                                    super.onAdImpression();
+                                }
+                            }
                         );
-                    } else{
+                    } else {
                         Log.e(logTag, "mAdView is null, the listener can't work");
                     }
-                    
 
                     // Add AdViewLayout top of the WebView
-                    if(mViewGroup != null){
+                    if (mViewGroup != null) {
                         mViewGroup.addView(mAdViewLayout);
-                    }else{
+                    } else {
                         Log.e(logTag, "mViewGroup is null, the initialization can't be completed");
                     }
                 }
